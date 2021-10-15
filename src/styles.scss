@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'styles-utilities/bootstrap/bootstrap-utilities';
+@import 'styles-utilities/scrollbar';
+@import 'styles-utilities/property';
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial,
+  sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+}
+
+img {
+  object-fit: scale-down;
+}
+
+.space-line {
+  height: 1px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ant-btn.ant-btn-sm {
+  font-size: 12px;
+
+  .anticon {
+    font-size: 10px;
+  }
+}
+
+.ant-select.ant-select-sm {
+  font-size: 12px;
+
+  .anticon {
+    font-size: 10px;
+  }
+}
+
+.ant-list.ant-list-sm {
+  .ant-list-item-meta-description,
+  .ant-list-item-action li {
+    font-size: 12px;
+  }
+}
+
+.ant-empty[nznotfoundimage='simple'] {
+  margin: 32px 0;
+  color: rgba(0, 0, 0, 0.4);
+
+  .ant-empty-image {
+    height: 40px;
+  }
+}

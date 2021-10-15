@@ -1,0 +1,36 @@
+.properties {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.property {
+  flex: 0 0 0;
+  display: flex;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.87);
+  position: relative;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &.full {
+    flex-basis: 100%;
+  }
+
+  &.half {
+    flex-basis: 50%;
+  }
+}
+
+.property-name {
+  color: rgba(0, 0, 0, 0.54);
+
+  &::after {
+    content: '：';
+  }
+}
+
+.property-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
