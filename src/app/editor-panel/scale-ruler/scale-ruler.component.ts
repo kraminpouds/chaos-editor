@@ -1,7 +1,9 @@
+import { ViewportRuler } from '@angular/cdk/scrolling';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { PlatformService } from '../../platform.service';
-import { ScaleRuler } from './entites/ruler';
+import { OffsetChangedEvent } from './scale-ruler';
 import { ScaleRulerService } from './scale-ruler.service';
 import { drawLine, getCanvas2DContext } from './utility';
 
@@ -15,60 +17,63 @@ export class ScaleRulerComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('horizontalCanvas', { static: true }) horizontalCanvasElementRef?: ElementRef;
   @ViewChild('verticalCanvas', { static: true }) verticalCanvasElementRef?: ElementRef;
 
-  private _destroy$ = new Subject<void>();
+  private _initialize$ = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
-  private get scaleRuler(): ScaleRuler {
-    return this._scaleRulerService.scaleRuler;
-  }
+  private _vesselLeft = 50;
+  private _vesselTop = 50;
 
-  constructor(private _elementRef: ElementRef, private _scaleRulerService: ScaleRulerService, private _platform: PlatformService) {}
+  constructor(
+    protected _elementRef: ElementRef,
+    protected _scaleRulerService: ScaleRulerService,
+    private _platform: PlatformService,
+    private _viewportRuler: ViewportRuler
+  ) {}
 
   ngOnInit(): void {
     if (this._platform.isServer) {
       return;
     }
-    this._calcScaleRulerSize();
-  }
-
-  private _calcScaleRulerSize() {
-    const rect = this._elementRef.nativeElement.getBoundingClientRect();
-    this.scaleRuler.horizontalRulerWidth = rect.width - 16;
-    this.scaleRuler.verticalRulerHeight = rect.height - 16;
+    this._bindEvents();
   }
 
   ngAfterViewInit(): void {
     if (this._platform.isServer) {
       return;
     }
-    setTimeout(() => {
-      this._createHorizontalRuler();
-      this._createVerticalRuler();
-    });
+    setTimeout(() => this._initialize$.next());
   }
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
-  private _createHorizontalRuler(): void {
+  protected _calcScaleRulerSize() {
+    const rect = this._elementRef.nativeElement.getBoundingClientRect();
+    this._scaleRulerService.horizontalRulerWidth = rect.width - 16;
+    this._scaleRulerService.verticalRulerHeight = rect.height - 16;
+  }
+
+  protected _createHorizontalRuler(event?: OffsetChangedEvent): void {
     if (!this.horizontalCanvasElementRef) {
-      // todo should throw error
       return;
     }
     const horizontalRuler = this.horizontalCanvasElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
-    const vesselLeft = 50 * dpr;
-    const rulerWidth = this.scaleRuler.horizontalRulerWidth * dpr;
+    // todo 需要用明确值，delta值只做测试临时使用，且delta值会因为debounceTime而错误
+    this._vesselLeft -= -(event?.deltaX ?? 0);
+    const vesselLeft = this._vesselLeft * dpr;
+    const rulerWidth = this._scaleRulerService.horizontalRulerWidth * dpr;
     const rulerHeight = 16 * dpr;
     horizontalRuler.width = rulerWidth;
     horizontalRuler.height = rulerHeight;
-    horizontalRuler.style.width = this.scaleRuler.horizontalRulerWidth + 'px';
+    horizontalRuler.style.width = this._scaleRulerService.horizontalRulerWidth + 'px';
     horizontalRuler.style.height = '16px';
     const canvas = getCanvas2DContext(horizontalRuler);
-    canvas.transform(dpr, 0, 0, dpr, 0, 0);
-    canvas.fillStyle = '#f0f2f5';
-    canvas.fillRect(-0, 0, this.scaleRuler.horizontalRulerWidth, 16);
+    canvas.transform(dpr, 0, 0, dpr, this._scaleRulerService.offsetX * dpr, 0);
+    canvas.fillStyle = '#f9fafb';
+    canvas.fillRect(-this._scaleRulerService.offsetX, 0, this._scaleRulerService.horizontalRulerWidth, 16);
     canvas.setTransform(dpr, 0, 0, dpr, vesselLeft, 0);
     canvas.lineWidth = 1;
     const handleDrawLine = (i: number) => {
@@ -87,24 +92,25 @@ export class ScaleRulerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private _createVerticalRuler(): void {
+  protected _createVerticalRuler(event?: OffsetChangedEvent): void {
     if (!this.verticalCanvasElementRef) {
-      // todo should throw error
       return;
     }
     const verticalRuler = this.verticalCanvasElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
-    const vesselTop = 50 * dpr;
+    // todo 需要用明确值，delta值只做测试临时使用，且delta值会因为debounceTime而错误
+    this._vesselTop -= event?.deltaY ?? 0;
+    const vesselTop = this._vesselTop * dpr;
     const rulerWidth = 16 * dpr;
-    const rulerHeight = this.scaleRuler.verticalRulerHeight * dpr;
+    const rulerHeight = this._scaleRulerService.verticalRulerHeight * dpr;
     verticalRuler.width = rulerWidth;
     verticalRuler.height = rulerHeight;
     verticalRuler.style.width = '16px';
-    verticalRuler.style.height = this.scaleRuler.verticalRulerHeight + 'px';
+    verticalRuler.style.height = this._scaleRulerService.verticalRulerHeight + 'px';
     const canvas = getCanvas2DContext(verticalRuler);
-    canvas.transform(dpr, 0, 0, dpr, 0, 0);
-    canvas.fillStyle = '#f0f2f5';
-    canvas.fillRect(0, -0, 16, this.scaleRuler.verticalRulerHeight);
+    canvas.transform(dpr, 0, 0, dpr, 0, this._scaleRulerService.offsetY * dpr);
+    canvas.fillStyle = '#f9fafb';
+    canvas.fillRect(0, -this._scaleRulerService.offsetY, 16, this._scaleRulerService.verticalRulerHeight);
     canvas.setTransform(dpr, 0, 0, dpr, 0, vesselTop);
     canvas.lineWidth = 1;
     const handleDrawLine = (i: number) => {
@@ -125,6 +131,23 @@ export class ScaleRulerComponent implements OnInit, OnDestroy, AfterViewInit {
     for (let i = 0; i > -vesselTop / 10 / dpr; i--) {
       handleDrawLine(i);
     }
+  }
+
+  private _bindEvents() {
+    merge(this._initialize$.pipe(take(1)), this._viewportRuler.change(150))
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(() => {
+        this._calcScaleRulerSize();
+        this._createHorizontalRuler();
+        this._createVerticalRuler();
+        // 辅助线
+      });
+
+    this._scaleRulerService.offsetChanged.pipe(takeUntil(this._destroyed)).subscribe(event => {
+      this._createHorizontalRuler(event);
+      this._createVerticalRuler(event);
+      // 辅助线
+    });
   }
 
   addHorizontalLine(): void {}

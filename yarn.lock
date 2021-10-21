@@ -189,10 +189,19 @@
   dependencies:
     tslib "^2.2.0"
 
-"@angular/cdk@^12.1.0", "@angular/cdk@~12.2.3":
+"@angular/cdk@^12.1.0":
   version "12.2.9"
   resolved "https://registry.npmmirror.com/@angular/cdk/download/@angular/cdk-12.2.9.tgz#f39e4d7cdb3568ad8e1d412e3500772e2d4c605c"
   integrity sha1-855NfNs1aK2OHUEuNQB3Li1MYFw=
+  dependencies:
+    tslib "^2.2.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
+"@angular/cdk@^12.2.10":
+  version "12.2.10"
+  resolved "https://registry.npmmirror.com/@angular/cdk/download/@angular/cdk-12.2.10.tgz#48782cd812efabf34def594d80c17fcfc24fe270"
+  integrity sha1-SHgs2BLvq/NN71lNgMF/z8JP4nA=
   dependencies:
     tslib "^2.2.0"
   optionalDependencies:

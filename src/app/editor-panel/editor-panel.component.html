@@ -1,11 +1,15 @@
 <div class='editor-panel-container'>
   <!--头部操作区-->
-  <div></div>
   <!--画布-->
   <div class='editor-panel-canvas-wrap'>
-    <div class="canvas-scale-ruler">
+    <div class='canvas-scale-ruler'>
       <chaos-editor-scale-ruler></chaos-editor-scale-ruler>
     </div>
-    <div class='editor-panel-canvas'></div>
+    <div #canvas (mouseWheelEvent)='mouseWheel($event, canvas)' class='editor-panel-canvas' nceMouseWheel>
+
+    </div>
+    <div class='canvas-scroll-bar'>
+      <chaos-editor-virtual-scroll-bar></chaos-editor-virtual-scroll-bar>
+    </div>
   </div>
 </div>

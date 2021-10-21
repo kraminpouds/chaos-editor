@@ -16,6 +16,10 @@
           "viewEncapsulation": "None",
           "skipTests": true
         },
+        "@schematics/angular:directive": {
+          "prefix": "nce",
+          "skipTests": true
+        },
         "@schematics/angular:application": {
           "strict": true
         }
