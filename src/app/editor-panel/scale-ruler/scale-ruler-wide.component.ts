@@ -9,30 +9,26 @@ import { drawLine, getCanvas2DContext } from './utility';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScaleRulerWideComponent extends ScaleRulerComponent {
-  protected _calcScaleRulerSize() {
-    const rect = this._elementRef.nativeElement.getBoundingClientRect();
-    this._scaleRulerService.horizontalRulerWidth = rect.width - 50;
-    this._scaleRulerService.verticalRulerHeight = rect.height - 50;
-  }
+  protected _rulerSize = 50;
 
   protected _createHorizontalRuler(): void {
-    if (!this.horizontalCanvasElementRef) {
-      return;
-    }
-    const horizontalRuler = this.horizontalCanvasElementRef.nativeElement as HTMLCanvasElement;
+    const horizontalRuler = this.horizontalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
-    const vesselLeft = 100 * dpr;
-    const rulerWidth = this._scaleRulerService.horizontalRulerWidth * dpr;
-    const rulerHeight = 50 * dpr;
-    horizontalRuler.width = rulerWidth;
-    horizontalRuler.height = rulerHeight;
-    horizontalRuler.style.width = this._scaleRulerService.horizontalRulerWidth + 'px';
-    horizontalRuler.style.height = '50px';
+    const vesselLeft = this._scaleRulerService.getCanvasPoint().left;
+    const vesselLeftDpr = vesselLeft * dpr;
+    const rulerWidth = this._scaleRulerService.horizontalRulerWidth;
+    const rulerWidthDpr = rulerWidth * dpr;
+    const rulerHeight = this._scaleRulerService.vesselRulerSize;
+    const rulerHeightDpr = rulerHeight * dpr;
+    horizontalRuler.width = rulerWidthDpr;
+    horizontalRuler.height = rulerHeightDpr;
+    horizontalRuler.style.width = rulerWidth + 'px';
+    horizontalRuler.style.height = rulerHeight + 'px';
     const canvas = getCanvas2DContext(horizontalRuler);
-    canvas.transform(dpr, 0, 0, dpr, this._scaleRulerService.offsetX, 0);
+    canvas.transform(dpr, 0, 0, dpr, vesselLeftDpr, 0);
     canvas.fillStyle = '#f0f2f5';
-    canvas.fillRect(-this._scaleRulerService.offsetX, 0, this._scaleRulerService.horizontalRulerWidth, 50);
-    canvas.setTransform(dpr, 0, 0, dpr, vesselLeft, 0);
+    canvas.fillRect(-vesselLeft, 0, rulerWidth, rulerHeight);
+    canvas.setTransform(dpr, 0, 0, dpr, vesselLeftDpr, 0);
     canvas.lineWidth = 1;
     const handleDrawLine = (i: number) => {
       drawLine(canvas, { x: i * 10, y: 0 }, { x: i * 10, y: i % 10 == 0 ? 16 : 10 }, '#cccccc');
@@ -42,32 +38,32 @@ export class ScaleRulerWideComponent extends ScaleRulerComponent {
         canvas.fillText(i * 10 + '', i * 10 - 4, 16 + 14 + 4);
       }
     };
-    for (let i = 0; i < (rulerWidth - vesselLeft) / 10 / dpr; i++) {
+    for (let i = 0; i < (rulerWidthDpr - vesselLeftDpr) / 10 / dpr; i++) {
       handleDrawLine(i);
     }
-    for (let i = 0; i > -vesselLeft / 10 / dpr; i--) {
+    for (let i = 0; i > -vesselLeftDpr / 10 / dpr; i--) {
       handleDrawLine(i);
     }
   }
 
   protected _createVerticalRuler(): void {
-    if (!this.verticalCanvasElementRef) {
-      return;
-    }
-    const verticalRuler = this.verticalCanvasElementRef.nativeElement as HTMLCanvasElement;
+    const verticalRuler = this.verticalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
-    const vesselTop = 100 * dpr;
-    const rulerWidth = 50 * dpr;
-    const rulerHeight = this._scaleRulerService.verticalRulerHeight * dpr;
-    verticalRuler.width = rulerWidth;
-    verticalRuler.height = rulerHeight;
-    verticalRuler.style.width = '50px';
-    verticalRuler.style.height = this._scaleRulerService.verticalRulerHeight + 'px';
+    const vesselTop = this._scaleRulerService.getCanvasPoint().top;
+    const vesselTopDpr = vesselTop * dpr;
+    const rulerWidth = this._scaleRulerService.vesselRulerSize;
+    const rulerWidthDpr = rulerWidth * dpr;
+    const rulerHeight = this._scaleRulerService.verticalRulerHeight;
+    const rulerHeightDpr = rulerHeight * dpr;
+    verticalRuler.width = rulerWidthDpr;
+    verticalRuler.height = rulerHeightDpr;
+    verticalRuler.style.width = rulerWidth + 'px';
+    verticalRuler.style.height = rulerHeight + 'px';
     const canvas = getCanvas2DContext(verticalRuler);
-    canvas.transform(dpr, 0, 0, dpr, 0, this._scaleRulerService.offsetY);
+    canvas.transform(dpr, 0, 0, dpr, 0, vesselTopDpr);
     canvas.fillStyle = '#f0f2f5';
-    canvas.fillRect(0, -this._scaleRulerService.offsetY, 50, this._scaleRulerService.verticalRulerHeight);
-    canvas.setTransform(dpr, 0, 0, dpr, 0, vesselTop);
+    canvas.fillRect(0, -vesselTop, rulerWidth, rulerHeight);
+    canvas.setTransform(dpr, 0, 0, dpr, 0, vesselTopDpr);
     canvas.lineWidth = 1;
     const handleDrawLine = (i: number) => {
       drawLine(canvas, { x: 0, y: i * 10 }, { x: i % 10 == 0 ? 16 : 10, y: i * 10 }, '#cccccc');
@@ -77,10 +73,10 @@ export class ScaleRulerWideComponent extends ScaleRulerComponent {
         canvas.fillText(i * 10 + '', 16 + 4, i * 10 + 4);
       }
     };
-    for (let i = 0; i < (rulerHeight - vesselTop) / 10 / dpr; i++) {
+    for (let i = 0; i < (rulerHeightDpr - vesselTopDpr) / 10 / dpr; i++) {
       handleDrawLine(i);
     }
-    for (let i = 0; i > -vesselTop / 10 / dpr; i--) {
+    for (let i = 0; i > -vesselTopDpr / 10 / dpr; i--) {
       handleDrawLine(i);
     }
   }

@@ -1,0 +1,16 @@
+<div class='editor-horizontal-scroll-bar'>
+  <div class='scroll-bar-shell' nceDragScrollBar (nceDrag)='dragScrollBar("x", $event)'
+       [style.width.px]='horizontalWidth'
+       [style.left.px]='position.left'
+       [style.transform]='transformX'>
+    <div class='scroll-bar'></div>
+  </div>
+</div>
+<div class='editor-vertical-scroll-bar'>
+  <div class='scroll-bar-shell' nceDragScrollBar (nceDrag)='dragScrollBar("y", $event)'
+       [style.height.px]='verticalHeight'
+       [style.top.px]='position.top'
+       [style.transform]='transformY'>
+    <div class='scroll-bar'></div>
+  </div>
+</div>

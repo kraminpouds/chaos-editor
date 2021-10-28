@@ -1,4 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { Subject } from 'rxjs';
+import { auditTime, take, takeUntil } from 'rxjs/operators';
 import { MouseWheel } from '../mouse-wheel/mouse-wheel';
 import { ScaleRulerService } from './scale-ruler/scale-ruler.service';
 import { VirtualScrollBarService } from './virtual-scroll-bar/virtual-scroll-bar.service';
@@ -10,40 +23,48 @@ import { VirtualScrollBarService } from './virtual-scroll-bar/virtual-scroll-bar
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class EditorPanelComponent implements OnInit {
-  constructor(private _virtualScrollBarService: VirtualScrollBarService, private _scaleRulerService: ScaleRulerService) {}
+export class EditorPanelComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('canvasVessel', { static: true }) canvasVesselRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLDivElement>;
+
+  private _destroyed = new Subject<void>();
+
+  constructor(
+    protected _changeDetectorRef: ChangeDetectorRef,
+    private _virtualScrollBarService: VirtualScrollBarService,
+    private _scaleRulerService: ScaleRulerService,
+    private _ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    void 0;
+    this._virtualScrollBarService.changed.pipe(takeUntil(this._destroyed), auditTime(10)).subscribe(() => {
+      this._scaleRulerService.updateOnScroll();
+      this.canvasRef.nativeElement.style.transform = `translate(${-this._virtualScrollBarService.offsetX}px, ${-this
+        ._virtualScrollBarService.offsetY}px)`;
+    });
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
+
+  ngAfterViewInit() {
+    this._ngZone.onStable.pipe(take(1), takeUntil(this._destroyed)).subscribe(() => {
+      // 注册容器
+      this._scaleRulerService.withVesselElement(this.canvasVesselRef).withCanvasElement(this.canvasRef);
+      this._virtualScrollBarService
+        .withVesselElement(this.canvasVesselRef, this._scaleRulerService.vesselRulerSize)
+        .withCanvasElement(this.canvasRef)
+        .resetOffset();
+    });
   }
 
   /**
    * 接收鼠标的滚轮事件
    * 改变滚动条的位置以及视图区域
    */
-  mouseWheel(event: MouseWheel, canvas: HTMLDivElement): void {
-    const rect = canvas.getBoundingClientRect();
-    rect.width -= 26;
-    rect.height -= 26;
-
-    const { offsetX, horizontalScrollBarWidth } = this._virtualScrollBarService;
-    // 往左最大只能滚动到现有左偏移
-    let deltaX = Math.max(-offsetX, event.deltaX);
-    // 往右滚动到底后
-    if (deltaX + offsetX + horizontalScrollBarWidth > rect.width) {
-      // 滚动条变最小
-      deltaX = Math.max(rect.width - horizontalScrollBarWidth - offsetX, 0);
-    }
-
-    const { offsetY, verticalScrollBarHeight } = this._virtualScrollBarService;
-    // 往上最大只能滚动到现有上偏移
-    let deltaY = Math.max(-offsetY, event.deltaY);
-    // 往下滚动到底后
-    if (deltaY + offsetY + verticalScrollBarHeight > rect.height) {
-      deltaY = Math.max(rect.height - verticalScrollBarHeight - offsetY, 0);
-    }
-
-    this._virtualScrollBarService.moveto(deltaX, deltaY);
-    this._scaleRulerService.moveto(deltaX, deltaY);
+  mouseWheel(event: MouseWheel): void {
+    this._virtualScrollBarService.move(event.deltaX, event.deltaY);
   }
 }

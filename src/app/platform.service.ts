@@ -13,7 +13,7 @@ export class PlatformService {
   readonly protocol: string;
 
   constructor(@Inject(PLATFORM_ID) platformId: string, @Optional() @Inject(REQUEST) private request: any) {
-    this.isBrowser = isPlatformBrowser(platformId);
+    this.isBrowser = platformId ? isPlatformBrowser(platformId) : typeof document === 'object' && !!document;
     this.isServer = isPlatformServer(platformId);
 
     if (this.isBrowser) {

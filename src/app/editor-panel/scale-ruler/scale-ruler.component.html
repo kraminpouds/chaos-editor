@@ -1,7 +1,7 @@
 <div class='editor-horizontal-ruler'>
-  <canvas id='horizontal-ruler-canvas' #horizontalCanvas
-          (click)='addHorizontalLine()'></canvas>
+  <canvas #horizontal (click)='addHorizontalLine()' id='horizontal-ruler-canvas'></canvas>
 </div>
 <div class='editor-vertical-ruler'>
-  <canvas id='vertical-ruler-canvas' #verticalCanvas (click)='addVerticalLine()'></canvas>
+  <canvas #vertical (click)='addVerticalLine()' id='vertical-ruler-canvas'></canvas>
 </div>
+<div class='editor-ruler-corner'></div>
