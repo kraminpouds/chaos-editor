@@ -12,6 +12,7 @@ export class ScaleRulerWideComponent extends ScaleRulerComponent {
   protected _rulerSize = 50;
 
   protected _createHorizontalRuler(): void {
+    const window = this._platform.getWindow();
     const horizontalRuler = this.horizontalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
     const vesselLeft = this._scaleRulerService.getCanvasPoint().left;
@@ -47,6 +48,7 @@ export class ScaleRulerWideComponent extends ScaleRulerComponent {
   }
 
   protected _createVerticalRuler(): void {
+    const window = this._platform.getWindow();
     const verticalRuler = this.verticalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
     const vesselTop = this._scaleRulerService.getCanvasPoint().top;

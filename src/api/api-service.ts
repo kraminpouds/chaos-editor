@@ -101,13 +101,15 @@ export class CdkApiService {
     const _params = params instanceof HttpParams ? params : new HttpParams({ fromObject: params || {} });
     const fileNameAndExt = (filename && filename.split('.')) || [];
     this._ngZone.runOutsideAngular(() => {
-      const a = this._document.createElement('a');
-      this._document.body.appendChild(a);
-      a.setAttribute('style', 'display: none');
-      a.href = _url + '?' + _params.toString();
-      a.download = fileNameAndExt.join('.');
-      a.click();
-      a.remove(); // remove the element
+      if (this._platform.isBrowser) {
+        const a = this._document.createElement('a');
+        this._document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = _url + '?' + _params.toString();
+        a.download = fileNameAndExt.join('.');
+        a.click();
+        a.remove(); // remove the element
+      }
     });
   }
 
@@ -153,15 +155,17 @@ export class CdkApiService {
       fileNameAndExt[1] = fileNameAndExt[1] || _fileNameAndExt[1];
 
       this._ngZone.runOutsideAngular(() => {
-        const objectURL = window.URL.createObjectURL(response.body);
-        const a = this._document.createElement('a');
-        this._document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = objectURL;
-        a.download = fileNameAndExt.join('.');
-        a.click();
-        window.URL.revokeObjectURL(objectURL);
-        a.remove(); // remove the element
+        if (this._platform.isBrowser) {
+          const objectURL = URL.createObjectURL(response.body);
+          const a = this._document.createElement('a');
+          this._document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = objectURL;
+          a.download = fileNameAndExt.join('.');
+          a.click();
+          URL.revokeObjectURL(objectURL);
+          a.remove(); // remove the element
+        }
       });
     });
   }

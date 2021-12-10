@@ -20,15 +20,21 @@ export class ScaleRulerComponent implements OnInit, OnDestroy {
 
   private readonly _destroyed = new Subject<void>();
 
-  constructor(protected _scaleRulerService: ScaleRulerService, private _platform: PlatformService, private _viewportRuler: ViewportRuler) {}
+  constructor(
+    protected _scaleRulerService: ScaleRulerService,
+    protected _platform: PlatformService,
+    protected _viewportRuler: ViewportRuler
+  ) {}
 
   ngOnInit(): void {
     this._scaleRulerService.setRulerSize(this._rulerSize);
-    this._scaleRulerService.changed.pipe(takeUntil(this._destroyed), auditTime(10)).subscribe(() => {
-      this._createHorizontalRuler();
-      this._createVerticalRuler();
-      // 辅助线
-    });
+    if (this._platform.isBrowser) {
+      this._scaleRulerService.changed.pipe(takeUntil(this._destroyed), auditTime(10)).subscribe(() => {
+        this._createHorizontalRuler();
+        this._createVerticalRuler();
+        // 辅助线
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -37,6 +43,7 @@ export class ScaleRulerComponent implements OnInit, OnDestroy {
   }
 
   protected _createHorizontalRuler(): void {
+    const window = this._platform.getWindow();
     const horizontalRuler = this.horizontalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
     const vesselLeft = this._scaleRulerService.getCanvasPoint().left;
@@ -72,6 +79,7 @@ export class ScaleRulerComponent implements OnInit, OnDestroy {
   }
 
   protected _createVerticalRuler(): void {
+    const window = this._platform.getWindow();
     const verticalRuler = this.verticalElementRef.nativeElement as HTMLCanvasElement;
     const dpr = window.devicePixelRatio || 1;
     const vesselTop = this._scaleRulerService.getCanvasPoint().top;

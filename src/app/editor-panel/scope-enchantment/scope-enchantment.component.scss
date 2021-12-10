@@ -1,0 +1,109 @@
+chaos-editor-scope-enchantment {
+  z-index: 500;
+}
+
+.scope-highlight-outline {
+  position: absolute;
+  border: 1px solid #ff7700;
+}
+
+.scope-activated-outline {
+  position: absolute;
+  outline: 1px solid #ff7700;
+
+  .reference-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+
+    &.left-top {
+      top: -7px;
+      left: -7px;
+      padding-left: 4px;
+      padding-top: 4px;
+      cursor: nw-resize;
+    }
+
+    &.center-top {
+      top: -7px;
+      left: calc(50% - 5px);
+      padding: 4px 2px 0 2px;
+      cursor: n-resize;
+    }
+
+    &.right-top {
+      top: -7px;
+      right: -7px;
+      padding-top: 4px;
+      padding-right: 4px;
+      cursor: ne-resize;
+    }
+
+    &.left-center {
+      top: calc(50% - 5px);
+      left: -7px;
+      padding: 2px 0 2px 4px;
+      cursor: w-resize;
+    }
+
+    &.right-center {
+      top: calc(50% - 5px);
+      right: -7px;
+      padding: 2px 4px 2px 0;
+      cursor: e-resize;
+    }
+
+    &.left-bottom {
+      bottom: -7px;
+      left: -7px;
+      padding-left: 4px;
+      padding-bottom: 4px;
+      cursor: sw-resize;
+    }
+
+    &.center-bottom {
+      bottom: -7px;
+      left: calc(50% - 5px);
+      padding: 0 2px 4px 2px;
+      cursor: s-resize;
+    }
+
+    &.right-bottom {
+      bottom: -7px;
+      right: -7px;
+      padding-bottom: 4px;
+      padding-right: 4px;
+      cursor: se-resize;
+    }
+  }
+
+  .reference-point-block {
+    width: 6px;
+    height: 6px;
+    border: 1px solid #ff7700;
+    background-color: #ffffff;
+  }
+}
+
+.scope-guides-wrap {
+  position: absolute;
+
+  .scope-guide {
+    opacity: 0;
+    position: absolute;
+  }
+
+  .scope-guide-left, .scope-guide-right, .scope-guide-center-vertical {
+    height: 300vh;
+    transform: translateY(-100vh);
+    width: 1px;
+    border-left: 1px dashed #ff7700;
+  }
+
+  .scope-guide-top, .scope-guide-bottom, .scope-guide-center-horizontal {
+    height: 1px;
+    width: 300vw;
+    transform: translateX(-100vw);
+    border-top: 1px dashed #ff7700;
+  }
+}

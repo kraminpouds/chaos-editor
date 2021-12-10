@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
@@ -15,6 +16,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditorPanelModule } from './editor-panel/editor-panel.module';
+import { WidgetPanelModule } from './widget-panel/widget-panel.module';
 
 registerLocaleData(zh);
 
@@ -34,6 +36,8 @@ const icons = [ArrowLeftOutline];
     NzBackTopModule,
     CdkScrollableModule,
     NzLayoutModule,
+    WidgetPanelModule,
+    OverlayModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

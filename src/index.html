@@ -1,13 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Chaos-Editor</title>
-    <base href="/" />
-    <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport" />
-    <link href="favicon.ico" rel="icon" type="image/x-icon" />
-  </head>
-  <body>
-    <app-root></app-root>
-  </body>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <title>Chaos-Editor</title>
+  <base href='/' />
+  <meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport' />
+  <link href='favicon.ico' rel='icon' type='image/x-icon' />
+  <script type='text/javascript'>
+    // 用户退出拦截
+    function exit() {
+      return '';
+    }
+  </script>
+  <style type='text/css'>
+    #main-loading {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @-webkit-keyframes main-loading-animation {
+      50% {
+        opacity: 0.3;
+      }
+
+      75% {
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      }
+
+      80% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes main-loading-animation {
+      50% {
+        opacity: 0.3;
+      }
+
+      75% {
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      }
+
+      80% {
+        opacity: 1;
+      }
+    }
+
+    #main-loading .loader {
+      width: 96px;
+      position: relative;
+    }
+
+    #main-loading .loader .css-square {
+      position: absolute;
+      top: 50%;
+      width: 25px;
+      height: 7px;
+      background-color: #f29c98;
+    }
+
+    #main-loading .loader .square1 {
+      left: 0;
+      -webkit-animation: main-loading-animation 1s 0.125s ease infinite;
+      animation: main-loading-animation 1s 0.125s ease infinite;
+    }
+
+    #main-loading .loader .square2 {
+      left: 10px;
+      -webkit-animation: main-loading-animation 1s 0.3s ease infinite;
+      animation: main-loading-animation 1s 0.3s ease infinite;
+    }
+
+    #main-loading .loader .square3 {
+      left: 20px;
+      -webkit-animation: main-loading-animation 1s 0.425s ease infinite;
+      animation: main-loading-animation 1s 0.425s ease infinite;
+    }
+
+    #main-loading .loader .square4 {
+      left: 30px;
+      -webkit-animation: main-loading-animation 1s 0.54s ease infinite;
+      animation: main-loading-animation 1s 0.54s ease infinite;
+    }
+
+    #main-loading .loader .square5 {
+      left: 40px;
+      -webkit-animation: main-loading-animation 1s 0.665s ease infinite;
+      animation: main-loading-animation 1s 0.665s ease infinite;
+    }
+
+    #main-loading .loader .square6 {
+      left: 50px;
+      -webkit-animation: main-loading-animation 1s 0.79s ease infinite;
+      animation: main-loading-animation 1s 0.79s ease infinite;
+    }
+
+    #main-loading .loader .square7 {
+      left: 60px;
+      -webkit-animation: main-loading-animation 1s 0.9s ease infinite;
+      animation: main-loading-animation 1s 0.9s ease infinite;
+    }
+
+    #main-loading .loader .square8 {
+      left: 70px;
+      -webkit-animation: main-loading-animation 1s 1s ease infinite;
+      animation: main-loading-animation 1s 1s ease infinite;
+    }
+  </style>
+</head>
+<body>
+<app-root></app-root>
+<div id='main-loading'>
+  <div class='loader'>
+    <div class='css-square square1'></div>
+    <div class='css-square square2'></div>
+    <div class='css-square square3'></div>
+    <div class='css-square square4'></div>
+    <div class='css-square square5'></div>
+    <div class='css-square square6'></div>
+    <div class='css-square square7'></div>
+    <div class='css-square square8'></div>
+  </div>
+</div>
+</body>
 </html>

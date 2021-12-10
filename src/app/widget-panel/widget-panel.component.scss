@@ -1,0 +1,23 @@
+.widget {
+  border: 1px dashed rgba(0, 0, 0, 0.08);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  background-color: #f5f8fb;
+  margin-bottom: 15px;
+  flex-direction: column;
+  color: #393e46;
+
+  user-select: none;
+
+  &:hover {
+    border: 1px solid #393e46;
+  }
+}
+
+.widget-adding {
+  z-index: 1000;
+}

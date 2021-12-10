@@ -1846,11 +1846,6 @@
   resolved "https://registry.nlark.com/@types/dateformat/download/@types/dateformat-3.0.1.tgz#98d747a2e5e9a56070c6bf14e27bff56204e34cc"
   integrity sha1-mNdHouXppWBwxr8U4nv/ViBONMw=
 
-"@types/dragula@^2.1.34":
-  version "2.1.36"
-  resolved "https://registry.nlark.com/@types/dragula/download/@types/dragula-2.1.36.tgz#a58236ac095e26cd271b128f3c42df7fa41bd210"
-  integrity sha1-pYI2rAleJs0nGxKPPELff6Qb0hA=
-
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://registry.nlark.com/@types/eslint-scope/download/@types/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
@@ -2641,11 +2636,6 @@ at-least-node@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/at-least-node/download/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=
-
-atoa@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/atoa/download/atoa-1.0.0.tgz#0cc0e91a480e738f923ebc103676471779b34a49"
-  integrity sha1-DMDpGkgOc4+SPrwQNnZHF3mzSkk=
 
 atob@^2.1.2:
   version "2.1.2"
@@ -3486,14 +3476,6 @@ contour_plot@^0.0.1:
   resolved "https://registry.nlark.com/contour_plot/download/contour_plot-0.0.1.tgz#475870f032b8e338412aa5fc507880f0bf495c77"
   integrity sha1-R1hw8DK44zhBKqX8UHiA8L9JXHc=
 
-contra@1.9.4:
-  version "1.9.4"
-  resolved "https://registry.npm.taobao.org/contra/download/contra-1.9.4.tgz#f53bde42d7e5b5985cae4d99a8d610526de8f28d"
-  integrity sha1-9TveQtfltZhcrk2ZqNYQUm3o8o0=
-  dependencies:
-    atoa "1.0.0"
-    ticky "1.0.1"
-
 convert-source-map@^1.5.1, convert-source-map@^1.7.0:
   version "1.8.0"
   resolved "https://registry.nlark.com/convert-source-map/download/convert-source-map-1.8.0.tgz?cache=0&sync_timestamp=1624045420970&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fconvert-source-map%2Fdownload%2Fconvert-source-map-1.8.0.tgz#f3373c32d21b4d780dd8004514684fb791ca4369"
@@ -3646,13 +3628,6 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
-
-crossvent@1.5.5:
-  version "1.5.5"
-  resolved "https://registry.npm.taobao.org/crossvent/download/crossvent-1.5.5.tgz#ad20878e4921e9be73d9d6976f8b2ecd0f71a0b1"
-  integrity sha1-rSCHjkkh6b5z2daXb4suzQ9xoLE=
-  dependencies:
-    custom-event "^1.0.0"
 
 css-blank-pseudo@^0.1.4:
   version "0.1.4"
@@ -3859,7 +3834,7 @@ csstype@^3.0.8:
   resolved "https://registry.nlark.com/csstype/download/csstype-3.0.9.tgz?cache=0&sync_timestamp=1631541500871&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.9.tgz#6410af31b26bd0520933d02cbc64fce9ce3fbf0b"
   integrity sha1-ZBCvMbJr0FIJM9AsvGT86c4/vws=
 
-custom-event@^1.0.0, custom-event@~1.0.0:
+custom-event@~1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/custom-event/download/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
   integrity sha1-XQKkaFCt8bSjF5RqOSj8y1v9BCU=
@@ -4238,14 +4213,6 @@ dotignore@~0.1.2:
   integrity sha1-+ULyIA0ow6dvvdbw7p8yV8ii6QU=
   dependencies:
     minimatch "^3.0.4"
-
-dragula@^3.7.2, dragula@^3.7.3:
-  version "3.7.3"
-  resolved "https://registry.npm.taobao.org/dragula/download/dragula-3.7.3.tgz#909460fd0b4acba5409c6dbb1b64d24f5bc9efb6"
-  integrity sha1-kJRg/QtKy6VAnG27G2TST1vJ77Y=
-  dependencies:
-    contra "1.9.4"
-    crossvent "1.5.5"
 
 duplexer@^0.1.2:
   version "0.1.2"
@@ -7334,6 +7301,13 @@ neo-async@^2.6.2:
   resolved "https://registry.npm.taobao.org/neo-async/download/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
+ng-dynamic-component@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npm.taobao.org/ng-dynamic-component/download/ng-dynamic-component-8.0.1.tgz#df860f93ca16249013585007bbe20f6ec6bcc0af"
+  integrity sha1-34YPk8oWJJATWFAHu+IPbsa8wK8=
+  dependencies:
+    tslib "^2.0.0"
+
 ng-zorro-antd@^12.0.1:
   version "12.0.1"
   resolved "https://registry.nlark.com/ng-zorro-antd/download/ng-zorro-antd-12.0.1.tgz#7f06e2f538f02aefc17ff307e9e19045997f066f"
@@ -7343,14 +7317,6 @@ ng-zorro-antd@^12.0.1:
     "@ant-design/icons-angular" "^12.0.3"
     date-fns "^2.10.0"
     tslib "^2.2.0"
-
-ng2-dragula@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npm.taobao.org/ng2-dragula/download/ng2-dragula-2.1.1.tgz#350e78978b6f7e1ea0b16c61ba78161c84ec6386"
-  integrity sha1-NQ54l4tvfh6gsWxhungWHITsY4Y=
-  dependencies:
-    "@types/dragula" "^2.1.34"
-    dragula "^3.7.2"
 
 ngx-infinite-scroll@^10.0.1:
   version "10.0.1"
@@ -10216,11 +10182,6 @@ thunky@^1.0.2:
   version "1.1.0"
   resolved "https://registry.nlark.com/thunky/download/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha1-Wrr3FKlAXbBQRzK7zNLO3Z75U30=
-
-ticky@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/ticky/download/ticky-1.0.1.tgz#b7cfa71e768f1c9000c497b9151b30947c50e46d"
-  integrity sha1-t8+nHnaPHJAAxJe5FRswlHxQ5G0=
 
 timsort@^0.3.0:
   version "0.3.0"

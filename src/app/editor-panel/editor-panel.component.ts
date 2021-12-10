@@ -13,7 +13,9 @@ import {
 import { Subject } from 'rxjs';
 import { auditTime, take, takeUntil } from 'rxjs/operators';
 import { MouseWheel } from '../mouse-wheel/mouse-wheel';
+import { CanvasService } from './canvas.service';
 import { ScaleRulerService } from './scale-ruler/scale-ruler.service';
+import { ScopeEnchantmentService } from './scope-enchantment/scope-enchantment.service';
 import { VirtualScrollBarService } from './virtual-scroll-bar/virtual-scroll-bar.service';
 
 @Component({
@@ -27,12 +29,15 @@ export class EditorPanelComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('canvasVessel', { static: true }) canvasVesselRef!: ElementRef<HTMLDivElement>;
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLDivElement>;
 
+  readonly widgets = this._canvasService.widgets;
   private _destroyed = new Subject<void>();
 
   constructor(
     protected _changeDetectorRef: ChangeDetectorRef,
     private _virtualScrollBarService: VirtualScrollBarService,
     private _scaleRulerService: ScaleRulerService,
+    private _canvasService: CanvasService,
+    private _enchantmentService: ScopeEnchantmentService,
     private _ngZone: NgZone
   ) {}
 
@@ -52,6 +57,7 @@ export class EditorPanelComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this._ngZone.onStable.pipe(take(1), takeUntil(this._destroyed)).subscribe(() => {
       // 注册容器
+      this._canvasService.withVesselElement(this.canvasVesselRef).withCanvasElement(this.canvasRef);
       this._scaleRulerService.withVesselElement(this.canvasVesselRef).withCanvasElement(this.canvasRef);
       this._virtualScrollBarService
         .withVesselElement(this.canvasVesselRef, this._scaleRulerService.vesselRulerSize)
@@ -66,5 +72,10 @@ export class EditorPanelComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   mouseWheel(event: MouseWheel): void {
     this._virtualScrollBarService.move(event.deltaX, event.deltaY);
+  }
+
+  mouseDown(): void {
+    // 取消激活的轮廓
+    this._enchantmentService.activateWidgetOutline(null);
   }
 }

@@ -1,0 +1,51 @@
+<!--轮廓-->
+<div class='scope-outline'>
+  <div class='scope-highlight-outline' #highlightOutline></div>
+  <div class='scope-enchantment-outline'></div>
+</div>
+<!--辅助线-->
+<div class='scope-guides-wrap' #guidesWrap>
+  <div class='scope-guide scope-guide-top' data-guide-location='top'></div>
+  <div class='scope-guide scope-guide-bottom' data-guide-location='bottom'></div>
+  <div class='scope-guide scope-guide-left' data-guide-location='left'></div>
+  <div class='scope-guide scope-guide-right' data-guide-location='right'></div>
+  <div class='scope-guide scope-guide-center-horizontal' data-guide-location='hCenter'></div>
+  <div class='scope-guide scope-guide-center-vertical' data-guide-location='vCenter'></div>
+</div>
+<!--参考点-->
+<div class='scope-activated-outline' #activatedOutline>
+  <!--旋转-->
+  <!--变形-->
+  <!--8个参考点及其鼠标形式，循环8个-->
+  <!--左上，上，右上，右，右下，下，左下，左-->
+  <div class='reference-point' nceReferencePoint pointPositionX='left' pointPositionY='top' (nceDrag)='onPointDrag("left","top",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='center' pointPositionY='top'
+       (nceDrag)='onPointDrag("center","top",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='right' pointPositionY='top' (nceDrag)='onPointDrag("right","top",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='right' pointPositionY='center'
+       (nceDrag)='onPointDrag("right","center",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='right' pointPositionY='bottom'
+       (nceDrag)='onPointDrag("right","bottom",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='center' pointPositionY='bottom'
+       (nceDrag)='onPointDrag("center","bottom",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='left' pointPositionY='bottom'
+       (nceDrag)='onPointDrag("left","bottom",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+  <div class='reference-point' nceReferencePoint pointPositionX='left' pointPositionY='center'
+       (nceDrag)='onPointDrag("left","center",$event)'>
+    <div class='reference-point-block'></div>
+  </div>
+</div>

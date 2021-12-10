@@ -26,10 +26,9 @@
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-// import 'core-js/modules/es.object.entries';
-// import 'core-js/modules/es.object.values';
-// import 'core-js/modules/es.string.pad-start';
-// import 'core-js/modules/es.string.trim';
+import 'core-js/features/array';
+import 'core-js/features/object';
+import 'core-js/features/string';
 /**
  * Web Animations `@angular/platform-browser/animations`
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
@@ -65,3 +64,4 @@ import 'web-animations-js'; // Run `npm install --save web-animations-js`.
 import 'zone.js'; // Included with Angular CLI.
 // import VConsole from 'vconsole';
 // const vConsole = new VConsole();
+(window as any).global = window;

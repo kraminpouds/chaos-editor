@@ -1,4 +1,4 @@
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 
@@ -12,12 +12,15 @@ export class PlatformService {
   readonly hostname: string;
   readonly protocol: string;
 
-  constructor(@Inject(PLATFORM_ID) platformId: string, @Optional() @Inject(REQUEST) private request: any) {
+  document: Document;
+
+  constructor(@Inject(DOCUMENT) document: any, @Inject(PLATFORM_ID) platformId: string, @Optional() @Inject(REQUEST) private request: any) {
+    this.document = document;
     this.isBrowser = platformId ? isPlatformBrowser(platformId) : typeof document === 'object' && !!document;
     this.isServer = isPlatformServer(platformId);
 
     if (this.isBrowser) {
-      this.isMobile = !!window.navigator.userAgent.match(
+      this.isMobile = !!this.getWindow().navigator.userAgent.match(
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
       );
       this.hostname = location.hostname;
@@ -27,5 +30,9 @@ export class PlatformService {
       this.hostname = request.hostname;
       this.protocol = request.protocol + ':';
     }
+  }
+
+  getWindow(): Window {
+    return this.document.defaultView || window;
   }
 }
