@@ -69,7 +69,7 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env.PORT || 4200;
+  const port = process.env.PORT || 4000;
   const protocol = process.env.PROTOCOL || 'http';
   // Start up the Node server
   if (protocol === 'https') {
