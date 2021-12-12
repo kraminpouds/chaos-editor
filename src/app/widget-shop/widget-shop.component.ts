@@ -5,19 +5,19 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
-import { CanvasService } from '../editor-panel/canvas.service';
+import { CanvasService } from '../editor/canvas.service';
 import { WidgetRef } from '../widget/model/widget-ref';
 import { TextWidgetComponent } from '../widget/text-widget/text-widget.component';
 import { Widget } from '../widget/widget.common';
 
 @Component({
-  selector: 'chaos-editor-widget-panel',
-  templateUrl: './widget-panel.component.html',
-  styleUrls: ['./widget-panel.component.scss'],
+  selector: 'chaos-editor-widget-shop',
+  templateUrl: './widget-shop.component.html',
+  styleUrls: ['./widget-shop.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WidgetPanelComponent implements OnInit, OnDestroy {
+export class WidgetShopComponent implements OnInit, OnDestroy {
   test = <Widget>{
     width: 200,
     height: 200,

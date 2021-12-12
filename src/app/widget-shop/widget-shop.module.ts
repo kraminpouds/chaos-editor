@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { WidgetPanelComponent } from './widget-panel.component';
+import { WidgetShopComponent } from './widget-shop.component';
 
 @NgModule({
-  declarations: [WidgetPanelComponent],
+  declarations: [WidgetShopComponent],
   imports: [CommonModule, NzGridModule, DynamicModule],
-  exports: [WidgetPanelComponent],
+  exports: [WidgetShopComponent],
 })
-export class WidgetPanelModule {}
+export class WidgetShopModule {}

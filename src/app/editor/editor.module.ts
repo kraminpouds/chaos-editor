@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { MouseWheelModule } from '../mouse-wheel/mouse-wheel.module';
 import { WidgetModule } from '../widget/widget.module';
-import { EditorPanelComponent } from './editor-panel.component';
+import { EditorComponent } from './editor.component';
 import { ScaleRulerWideComponent } from './scale-ruler/scale-ruler-wide.component';
 import { ScaleRulerComponent } from './scale-ruler/scale-ruler.component';
 import { ReferencePointDirective } from './scope-enchantment/reference-point.directive';
@@ -12,7 +12,7 @@ import { VirtualScrollBarModule } from './virtual-scroll-bar/virtual-scroll-bar.
 
 @NgModule({
   imports: [CommonModule, MouseWheelModule, VirtualScrollBarModule, WidgetModule, DynamicModule],
-  declarations: [EditorPanelComponent, ScaleRulerComponent, ScaleRulerWideComponent, ScopeEnchantmentComponent, ReferencePointDirective],
-  exports: [EditorPanelComponent],
+  declarations: [EditorComponent, ScaleRulerComponent, ScaleRulerWideComponent, ScopeEnchantmentComponent, ReferencePointDirective],
+  exports: [EditorComponent],
 })
-export class EditorPanelModule {}
+export class EditorModule {}

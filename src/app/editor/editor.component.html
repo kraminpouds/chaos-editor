@@ -1,12 +1,12 @@
-<div class='editor-panel-container'>
+<div class='editor-container'>
   <!--头部操作区-->
   <!--画布-->
-  <div class='editor-panel-canvas-wrap'>
+  <div class='editor-canvas-wrap'>
     <div class='canvas-scale-ruler'>
       <chaos-editor-scale-ruler></chaos-editor-scale-ruler>
     </div>
-    <div #canvasVessel (mouseWheelEvent)='mouseWheel($event)' (mousedown)='mouseDown()' class='editor-panel-canvas-vessel' nceMouseWheel>
-      <div #canvas [style.height.px]='667' [style.width.px]='375' class='editor-panel-canvas'>
+    <div #canvasVessel (mouseWheelEvent)='mouseWheel($event)' (mousedown)='mouseDown()' class='editor-canvas-vessel' nceMouseWheel>
+      <div #canvas [style.height.px]='667' [style.width.px]='375' class='editor-canvas'>
         <chaos-editor-scope-enchantment></chaos-editor-scope-enchantment>
         <chaos-editor-widget-shell *ngFor='let widget of widgets | async' [widgetOutline]='widget.outline'>
           <chaos-editor-widget [widgetRef]='widget'></chaos-editor-widget>

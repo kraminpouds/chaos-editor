@@ -19,13 +19,13 @@ import { ScopeEnchantmentService } from './scope-enchantment/scope-enchantment.s
 import { VirtualScrollBarService } from './virtual-scroll-bar/virtual-scroll-bar.service';
 
 @Component({
-  selector: 'chaos-editor-panel',
-  templateUrl: './editor-panel.component.html',
-  styleUrls: ['./editor-panel.component.scss'],
+  selector: 'chaos-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class EditorPanelComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('canvasVessel', { static: true }) canvasVesselRef!: ElementRef<HTMLDivElement>;
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLDivElement>;
 

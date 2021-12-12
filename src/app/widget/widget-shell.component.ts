@@ -3,8 +3,8 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
 import { take, takeUntil, tap } from 'rxjs/operators';
-import { CanvasService } from '../editor-panel/canvas.service';
-import { ScopeEnchantmentService } from '../editor-panel/scope-enchantment/scope-enchantment.service';
+import { CanvasService } from '../editor/canvas.service';
+import { ScopeEnchantmentService } from '../editor/scope-enchantment/scope-enchantment.service';
 import { WidgetOutline } from './model/widget-outline';
 
 @Component({
