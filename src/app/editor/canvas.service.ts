@@ -35,13 +35,6 @@ export class CanvasService {
     return this.widgets$.value;
   }
 
-  addWidget(widgetRef: WidgetRef): void {
-    const widgets = this.widgets$.value;
-
-    // todo 简单处理，这里还需要计算zIndex等
-    this.widgets$.next([...this.widgets$.value, widgetRef]);
-  }
-
   /** 注册容器对象 */
   withVesselElement(vesselElement: ElementRef<HTMLElement> | HTMLElement): this {
     this._vesselElement = vesselElement ? coerceElement(vesselElement) : null;
@@ -82,5 +75,23 @@ export class CanvasService {
       width: rect.width,
       height: rect.height,
     };
+  }
+
+  addWidget(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+
+    // todo 简单处理，这里还需要计算zIndex等
+    widgetRef.outline.updateZIndex(this._getMaxZIndex() + 1);
+    this.widgets$.next([...widgets, widgetRef]);
+  }
+
+  removeWidget(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+    this.widgets$.next([...widgets.filter(widget => widget !== widgetRef)]);
+  }
+
+  private _getMaxZIndex(): number {
+    const widgets = this.widgets$.value;
+    return widgets.reduce((p, c) => (c.outline.zIndex > p ? c.outline.zIndex : p), 10);
   }
 }

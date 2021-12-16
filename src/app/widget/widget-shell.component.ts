@@ -40,12 +40,14 @@ export class WidgetShellComponent implements OnInit, OnDestroy {
       this._elementRef.nativeElement.style.left = coerceCssPixelValue(this.widgetOutline.left);
       this._elementRef.nativeElement.style.width = coerceCssPixelValue(this.widgetOutline.width);
       this._elementRef.nativeElement.style.height = coerceCssPixelValue(this.widgetOutline.height);
+      this._elementRef.nativeElement.style.zIndex = this.widgetOutline.zIndex;
 
       this.widgetOutline._stateChanges.pipe(takeUntil(this._destroyed)).subscribe(() => {
         this._elementRef.nativeElement.style.top = coerceCssPixelValue(this.widgetOutline.top);
         this._elementRef.nativeElement.style.left = coerceCssPixelValue(this.widgetOutline.left);
         this._elementRef.nativeElement.style.width = coerceCssPixelValue(this.widgetOutline.width);
         this._elementRef.nativeElement.style.height = coerceCssPixelValue(this.widgetOutline.height);
+        this._elementRef.nativeElement.style.zIndex = this.widgetOutline.zIndex;
       });
     }
   }

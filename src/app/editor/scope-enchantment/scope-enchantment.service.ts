@@ -22,6 +22,10 @@ export class ScopeEnchantmentService {
     return this._activatedWidgetOutline$.asObservable();
   }
 
+  get activatedWidgetOutline() {
+    return this._activatedWidgetOutline$.value;
+  }
+
   // 组件参考线横向
   private _cacheHGuides: number[] = [];
   // 组件参考线纵向

@@ -99,4 +99,10 @@ export class WidgetOutline {
 
     return this;
   }
+
+  updateZIndex(zIndex: number) {
+    this._zIndex = zIndex;
+    this._stateChanges.next(this);
+    return this;
+  }
 }

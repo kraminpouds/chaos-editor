@@ -19,6 +19,7 @@ import { Widget } from '../widget/widget.common';
 })
 export class WidgetShopComponent implements OnInit, OnDestroy {
   test = <Widget>{
+    name: '文本',
     width: 200,
     height: 200,
     component: TextWidgetComponent,
@@ -83,8 +84,8 @@ export class WidgetShopComponent implements OnInit, OnDestroy {
     if (event.pageX > left && event.pageY > top) {
       const widgetRef = new WidgetRef(widget);
       widgetRef.outline.updatePosition({
-        left: event.pageX - canvasLeft - widgetRef.widget.width / 2,
-        top: event.pageY - canvasTop - widgetRef.widget.height / 2,
+        left: event.pageX - canvasLeft - widgetRef.outline.width / 2,
+        top: event.pageY - canvasTop - widgetRef.outline.height / 2,
       });
       this._canvasService.addWidget(widgetRef);
     }

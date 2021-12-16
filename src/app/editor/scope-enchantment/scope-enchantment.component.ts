@@ -31,11 +31,11 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._enchantmentService.highlightWidgetOutlineChange.subscribe(outline => {
       if (outline) {
-        this.highlightOutlineRef.nativeElement.style.opacity = '1';
+        this.highlightOutlineRef.nativeElement.style.visibility = 'visible';
         this._updateHighlightOutline(outline);
         this._highlightOutlineSubscription = outline._stateChanges.subscribe(() => this._updateHighlightOutline(outline));
       } else {
-        this.highlightOutlineRef.nativeElement.style.opacity = '0';
+        this.highlightOutlineRef.nativeElement.style.visibility = 'hidden';
         this._highlightOutlineSubscription?.unsubscribe();
       }
     });
@@ -43,7 +43,7 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
     this._enchantmentService.activatedWidgetOutlineChange.subscribe(outline => {
       this._activatedOutline = outline;
       if (outline) {
-        this.activatedOutlineRef.nativeElement.style.opacity = '1';
+        this.activatedOutlineRef.nativeElement.style.visibility = 'visible';
         this._updateActivatedOutline(outline);
 
         this._activatedOutlineSubscription = outline._stateChanges.subscribe(() => {
@@ -51,7 +51,7 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
           this._updateActivatedGuides(outline);
         });
       } else {
-        this.activatedOutlineRef.nativeElement.style.opacity = '0';
+        this.activatedOutlineRef.nativeElement.style.visibility = 'hidden';
         this._activatedOutlineSubscription?.unsubscribe();
       }
     });
@@ -119,27 +119,27 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
       switch (location) {
         case 'top':
           guide.style.top = coerceCssPixelValue(outline.top);
-          guide.style.opacity = this._enchantmentService.cacheHGuides.includes(outline.top) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheHGuides.includes(outline.top) ? 'visible' : 'hidden';
           break;
         case 'bottom':
           guide.style.top = coerceCssPixelValue(outline.bottom);
-          guide.style.opacity = this._enchantmentService.cacheHGuides.includes(outline.bottom) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheHGuides.includes(outline.bottom) ? 'visible' : 'hidden';
           break;
         case 'hCenter':
           guide.style.top = coerceCssPixelValue(outline.hCenter);
-          guide.style.opacity = this._enchantmentService.cacheHGuides.includes(outline.hCenter) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheHGuides.includes(outline.hCenter) ? 'visible' : 'hidden';
           break;
         case 'left':
           guide.style.left = coerceCssPixelValue(outline.left);
-          guide.style.opacity = this._enchantmentService.cacheVGuides.includes(outline.left) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheVGuides.includes(outline.left) ? 'visible' : 'hidden';
           break;
         case 'right':
           guide.style.left = coerceCssPixelValue(outline.right);
-          guide.style.opacity = this._enchantmentService.cacheVGuides.includes(outline.right) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheVGuides.includes(outline.right) ? 'visible' : 'hidden';
           break;
         case 'vCenter':
           guide.style.left = coerceCssPixelValue(outline.vCenter);
-          guide.style.opacity = this._enchantmentService.cacheVGuides.includes(outline.vCenter) ? '1' : '0';
+          guide.style.visibility = this._enchantmentService.cacheVGuides.includes(outline.vCenter) ? 'visible' : 'hidden';
           break;
       }
     });
@@ -147,6 +147,6 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
 
   private _deactivateWidgetGuides(): void {
     const guides = this.guidesWrapRef.nativeElement.querySelectorAll<HTMLDivElement>('div.scope-guide');
-    guides.forEach(guide => (guide.style.opacity = '0'));
+    guides.forEach(guide => (guide.style.visibility = 'hidden'));
   }
 }

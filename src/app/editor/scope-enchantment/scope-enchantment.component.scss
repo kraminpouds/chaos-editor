@@ -1,20 +1,23 @@
-chaos-editor-scope-enchantment {
-  z-index: 500;
-}
+@import '/src/styles-utilities/zIndex';
 
 .scope-highlight-outline {
   position: absolute;
   border: 1px solid #ff7700;
+  z-index: $zindex-scope-enchantment;
+  pointer-events: none;
 }
 
 .scope-activated-outline {
   position: absolute;
   outline: 1px solid #ff7700;
+  z-index: $zindex-scope-enchantment;
+  pointer-events: none;
 
   .reference-point {
     position: absolute;
     width: 10px;
     height: 10px;
+    pointer-events: auto;
 
     &.left-top {
       top: -7px;
@@ -87,9 +90,11 @@ chaos-editor-scope-enchantment {
 
 .scope-guides-wrap {
   position: absolute;
+  pointer-events: none;
+  z-index: $zindex-scope-enchantment;
 
   .scope-guide {
-    opacity: 0;
+    visibility: hidden;
     position: absolute;
   }
 

@@ -1,6 +1,8 @@
 import { Type } from '@angular/core';
 
 export interface Widget<T = any> {
+  // 名称
+  name: string;
   // 组件的宽度
   width: number;
   // 组件的高度
