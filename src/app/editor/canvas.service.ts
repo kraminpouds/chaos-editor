@@ -1,6 +1,7 @@
 import { coerceElement } from '@angular/cdk/coercion';
 import { ElementRef, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { mapSort } from '../collection/map-sort';
 import { PlatformService } from '../platform.service';
 import { WidgetRef } from '../widget/model/widget-ref';
 
@@ -93,5 +94,60 @@ export class CanvasService {
   private _getMaxZIndex(): number {
     const widgets = this.widgets$.value;
     return widgets.reduce((p, c) => (c.outline.zIndex > p ? c.outline.zIndex : p), 10);
+  }
+
+  // 置顶
+  setZIndexToTop(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+    // 计划最大zIndex: 499
+    widgets.sort(mapSort<WidgetRef>(value => (widgetRef === value ? 500 : value.outline.zIndex)));
+    this._recalculateZIndex(widgets);
+  }
+
+  // 置底
+  setZIndexToBottom(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+    // 计划最大zIndex: 499
+    widgets.sort(mapSort<WidgetRef>(value => (widgetRef === value ? 0 : value.outline.zIndex)));
+    this._recalculateZIndex(widgets);
+  }
+
+  // 上一层
+  setZIndexUp(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+    // 计划最大zIndex: 499
+    widgets.sort(mapSort<WidgetRef>(value => value.outline.zIndex));
+    const index = widgets.findIndex(widget => widget === widgetRef);
+
+    // 忽略index已经在顶层了
+    if (index === widgets.length - 1) {
+      return;
+    }
+
+    widgets[index] = widgets.splice(index + 1, 1, widgets[index])[0];
+    this._recalculateZIndex(widgets);
+  }
+
+  // 下一层
+  setZIndexDown(widgetRef: WidgetRef): void {
+    const widgets = this.widgets$.value;
+    // 计划最大zIndex: 499
+    widgets.sort(mapSort<WidgetRef>(value => value.outline.zIndex));
+    const index = widgets.findIndex(widget => widget === widgetRef);
+
+    // 忽略index已经在底层了
+    if (index === 0) {
+      return;
+    }
+
+    widgets[index] = widgets.splice(index - 1, 1, widgets[index])[0];
+    this._recalculateZIndex(widgets);
+  }
+
+  private _recalculateZIndex(widgets: WidgetRef[]): void {
+    widgets.forEach((widget, index) => {
+      widget.outline.updateZIndex(index + 11);
+      this.widgets$.next([...widgets]);
+    });
   }
 }

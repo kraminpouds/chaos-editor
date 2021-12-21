@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { WidgetPosition, WidgetSize } from './widget-config';
+import { WidgetRef } from './widget-ref';
 
 /**
  * 组件外轮廓
@@ -59,7 +60,7 @@ export class WidgetOutline {
     return this._zIndex;
   }
 
-  constructor() {}
+  constructor(public readonly widgetRef: WidgetRef) {}
 
   updatePosition(position: WidgetPosition) {
     let stateChanged = false;

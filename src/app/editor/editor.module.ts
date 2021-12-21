@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MouseWheelModule } from '../mouse-wheel/mouse-wheel.module';
 import { WidgetModule } from '../widget/widget.module';
@@ -12,7 +13,7 @@ import { ScopeEnchantmentComponent } from './scope-enchantment/scope-enchantment
 import { VirtualScrollBarModule } from './virtual-scroll-bar/virtual-scroll-bar.module';
 
 @NgModule({
-  imports: [CommonModule, MouseWheelModule, VirtualScrollBarModule, WidgetModule, DynamicModule, NzIconModule],
+  imports: [CommonModule, MouseWheelModule, VirtualScrollBarModule, WidgetModule, DynamicModule, NzIconModule, NzDropDownModule],
   declarations: [EditorComponent, ScaleRulerComponent, ScaleRulerWideComponent, ScopeEnchantmentComponent, ReferencePointDirective],
   exports: [EditorComponent],
 })

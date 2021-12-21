@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
+import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { WidgetOutline } from 'src/app/widget/model/widget-outline';
 import { sortBy, unique } from '../../collection';
@@ -11,11 +12,18 @@ import { CanvasService } from '../canvas.service';
 export class ScopeEnchantmentService {
   private _highlightWidgetOutline$ = new BehaviorSubject<WidgetOutline | null>(null);
   private _activatedWidgetOutline$ = new BehaviorSubject<WidgetOutline | null>(null);
+  /** Cached reference to the context menu component for widget. */
+  private _widgetContextMenuComponent: NzDropdownMenuComponent | null = null;
+
   // 用于通知效果层无效化组件参考线
   deactivateWidgetGuides = new Subject<void>();
 
   get highlightWidgetOutlineChange() {
     return this._highlightWidgetOutline$.asObservable();
+  }
+
+  get highlightWidgetOutline() {
+    return this._highlightWidgetOutline$.value;
   }
 
   get activatedWidgetOutlineChange() {
@@ -39,13 +47,25 @@ export class ScopeEnchantmentService {
     return [...this._cacheVGuides];
   }
 
-  constructor(private _canvasService: CanvasService) {}
+  constructor(private _canvasService: CanvasService, private _nzContextMenuService: NzContextMenuService) {}
+
+  /** 注册右键菜单组件 */
+  withWidgetContextMenuComponent(widgetContextMenuComponent: NzDropdownMenuComponent): this {
+    this._widgetContextMenuComponent = widgetContextMenuComponent;
+    return this;
+  }
 
   setHighlightWidgetOutline(outline: WidgetOutline | null): void {
+    if (isDevMode()) {
+      console.log('[ScopeEnchantmentService]高亮组件发生变化', this.highlightWidgetOutline, '->', outline);
+    }
     this._highlightWidgetOutline$.next(outline);
   }
 
   activateWidgetOutline(outline: WidgetOutline | null): void {
+    if (isDevMode()) {
+      console.log('[ScopeEnchantmentService]激活组件发生变化', this.activatedWidgetOutline, '->', outline);
+    }
     this._activatedWidgetOutline$.next(outline);
   }
 
@@ -113,5 +133,11 @@ export class ScopeEnchantmentService {
       left: leftDelta[0] ? outline.left + leftDelta[0] : outline.left,
       top: topDelta[0] ? outline.top + topDelta[0] : outline.top,
     };
+  }
+
+  callWidgetContextMenuComponent(event: MouseEvent): void {
+    if (this._widgetContextMenuComponent) {
+      this._nzContextMenuService.create(event, this._widgetContextMenuComponent);
+    }
   }
 }

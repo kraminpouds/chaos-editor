@@ -5,10 +5,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { LayerComponent } from './layer.component';
 import { WidgetTriggerComponent } from './widget-trigger/widget-trigger.component';
 
-const icons = [DeleteOutline, PictureOutline];
-
 @NgModule({
-  imports: [CommonModule, NzIconModule.forChild(icons)],
+  imports: [CommonModule],
   declarations: [LayerComponent, WidgetTriggerComponent],
   exports: [LayerComponent],
 })

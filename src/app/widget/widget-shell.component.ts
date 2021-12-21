@@ -34,6 +34,7 @@ export class WidgetShellComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._initializeDragEvent();
     this._initializeHoverEvent();
+    this._initializeContextMenuEvent();
 
     if (this.widgetOutline) {
       this._elementRef.nativeElement.style.top = coerceCssPixelValue(this.widgetOutline.top);
@@ -55,6 +56,15 @@ export class WidgetShellComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroyed.next();
     this._destroyed.complete();
+  }
+
+  private _initializeContextMenuEvent(): void {
+    fromEvent<MouseEvent>(this._elementRef.nativeElement, 'contextmenu')
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(event => {
+        event.stopPropagation();
+        this._enchantmentService.callWidgetContextMenuComponent(event);
+      });
   }
 
   private _initializeHoverEvent(): void {
@@ -96,12 +106,14 @@ export class WidgetShellComponent implements OnInit, OnDestroy {
   }
 
   private _onDrag(event: MouseEvent): void {
-    const future = new WidgetOutline();
+    const future = new WidgetOutline(this.widgetOutline.widgetRef);
     future.updateSize({ width: this.widgetOutline.width, height: this.widgetOutline.height }).updatePosition({
       left: event.pageX - this._cacheDragMousePosition.left,
       top: event.pageY - this._cacheDragMousePosition.top,
     });
     const snappingPosition = this._enchantmentService.calcPositionForSnapToGuides(future);
     this.widgetOutline.updatePosition(snappingPosition);
+    const { top, bottom, left, right } = this.widgetOutline;
+    this.widgetOutline.widgetRef.events.drag({ top, bottom, left, right });
   }
 }

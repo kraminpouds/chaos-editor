@@ -49,3 +49,40 @@
     <div class='reference-point-block'></div>
   </div>
 </div>
+<!-- 右键事件 -->
+<nz-dropdown-menu #widgetContextMenu='nzDropdownMenu'>
+  <ul nz-menu>
+    <li nz-menu-item>
+      <a class='context-menu-content' (click)='setZIndexToTop()'>
+        <i nz-icon nzType='up-square' nzTheme='outline'></i>
+        置于顶层
+      </a>
+    </li>
+    <li nz-menu-item>
+      <a class='context-menu-content' (click)='setZIndexUp()'>
+        <i nz-icon nzType='up-square' nzTheme='outline'></i>
+        上移一层
+      </a>
+    </li>
+    <li nz-menu-item>
+      <a class='context-menu-content' (click)='setZIndexDown()'>
+        <i nz-icon nzType='down-square' nzTheme='outline'></i>
+        下移一层
+      </a>
+    </li>
+    <li nz-menu-item>
+      <a class='context-menu-content' (click)='setZIndexToBottom()'>
+        <i nz-icon nzType='down-square' nzTheme='outline'></i>
+        置于底层
+      </a>
+    </li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item>
+      <a class='context-menu-content'>
+        <i nz-icon nzType='delete' nzTheme='outline'></i>
+        删除
+      </a>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+

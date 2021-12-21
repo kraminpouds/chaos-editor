@@ -1,8 +1,12 @@
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { WidgetPosition } from '../../widget/model/widget-config';
+import { WidgetDrag } from '../../widget/model/widget-events';
 import { WidgetOutline } from '../../widget/model/widget-outline';
+import { CanvasService } from '../canvas.service';
 import { ReferencePointEvent } from './reference-point.directive';
 import { ScopeEnchantmentService } from './scope-enchantment.service';
 
@@ -17,18 +21,22 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
   @ViewChild('highlightOutline', { static: true }) highlightOutlineRef!: ElementRef<HTMLDivElement>;
   @ViewChild('activatedOutline', { static: true }) activatedOutlineRef!: ElementRef<HTMLDivElement>;
   @ViewChild('guidesWrap', { static: true }) guidesWrapRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('widgetContextMenu', { static: true }) widgetContextMenuComponent!: NzDropdownMenuComponent;
 
   private _highlightOutlineSubscription: Subscription | null = null;
   private _activatedOutlineSubscription: Subscription | null = null;
+  private _activatedEventsSubscription: Subscription | null = null;
 
   private _activatedOutline: WidgetOutline | null = null;
   private _minimum = 24;
 
   private _widgetOutlines: WidgetOutline[] = [];
 
-  constructor(private _enchantmentService: ScopeEnchantmentService) {}
+  constructor(private _enchantmentService: ScopeEnchantmentService, private _canvasService: CanvasService) {}
 
   ngOnInit(): void {
+    this._enchantmentService.withWidgetContextMenuComponent(this.widgetContextMenuComponent);
+
     this._enchantmentService.highlightWidgetOutlineChange.subscribe(outline => {
       if (outline) {
         this.highlightOutlineRef.nativeElement.style.visibility = 'visible';
@@ -48,11 +56,15 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
 
         this._activatedOutlineSubscription = outline._stateChanges.subscribe(() => {
           this._updateActivatedOutline(outline);
-          this._updateActivatedGuides(outline);
         });
+
+        this._activatedEventsSubscription = outline.widgetRef.events.eventChanges
+          .pipe(filter(e => e instanceof WidgetDrag))
+          .subscribe(() => this._updateActivatedGuides(outline));
       } else {
         this.activatedOutlineRef.nativeElement.style.visibility = 'hidden';
         this._activatedOutlineSubscription?.unsubscribe();
+        this._activatedEventsSubscription?.unsubscribe();
       }
     });
 
@@ -95,7 +107,38 @@ export class ScopeEnchantmentComponent implements OnInit, OnDestroy {
         break;
     }
 
+    // 拖拽大小是否需要增加吸附功能呢？
+
     this._activatedOutline.updatePosition(position).updateSize(size);
+    this._activatedOutline.widgetRef.events.drag(position);
+  }
+
+  // 置顶
+  setZIndexToTop(): void {
+    if (this._activatedOutline) {
+      this._canvasService.setZIndexToTop(this._activatedOutline.widgetRef);
+    }
+  }
+
+  // 置底
+  setZIndexToBottom(): void {
+    if (this._activatedOutline) {
+      this._canvasService.setZIndexToBottom(this._activatedOutline.widgetRef);
+    }
+  }
+
+  // 上一层
+  setZIndexUp(): void {
+    if (this._activatedOutline) {
+      this._canvasService.setZIndexUp(this._activatedOutline.widgetRef);
+    }
+  }
+
+  // 下一层
+  setZIndexDown(): void {
+    if (this._activatedOutline) {
+      this._canvasService.setZIndexDown(this._activatedOutline.widgetRef);
+    }
   }
 
   private _updateHighlightOutline(outline: WidgetOutline) {
